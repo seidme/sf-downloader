@@ -1,0 +1,16 @@
+{
+  "name": "files-downloader",
+  "version": "1.0.2",
+  "description": "Simple nodejs app that downloads files sequentially when provided starting URL",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "seidme",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^7.0.0"
+  },
+  "devDependencies": {}
+}
