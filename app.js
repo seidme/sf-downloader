@@ -3,14 +3,18 @@ const http = require("http");
 
 const args = process.argv.slice(2);
 
-const ARTICLE_NUMBER = args[0] || `1392`;
-const STARTING_PAGE_NUMBER = +args[1] || 1;
+const BASE_URL = args[0];
+const STARTING_FILE_NUMBER = +args[1] || 1;
 const FILE_FORMAT = args[2] || `jpg`;
-const BASE_URL = `http://privrednastampa.ba/ZIPS/${ARTICLE_NUMBER}/files/mobile`;
-const DEST_DIR_PATH = `./output/${ARTICLE_NUMBER}`;
+const DEST_DIR_PATH = `./output/${Math.random().toString(36).substring(4)}`;
 
-console.log(`ARTICLE_NUMBER: `, ARTICLE_NUMBER);
-console.log(`STARTING_PAGE_NUMBER: `, STARTING_PAGE_NUMBER);
+if(!BASE_URL) {
+  console.error('Please provide base URL.');
+  return;
+}
+
+console.log(`BASE_URL: `, BASE_URL);
+console.log(`STARTING_FILE_NUMBER: `, STARTING_FILE_NUMBER);
 console.log(`FILE_FORMAT: `, FILE_FORMAT);
 console.log(``);
 
@@ -69,7 +73,7 @@ const next = (pageNumber, retryCounter) => {
 
       console.error(`Error downloading file: `, fileSourceUrl);
 
-      if (retryCounter > 1) {
+      if (retryCounter > 2) {
         console.log(``);
         console.log(`Finishing with errors for file: `, fileSourceUrl);
         console.log(`Try completing the download later...`);
@@ -81,7 +85,7 @@ const next = (pageNumber, retryCounter) => {
 
       setTimeout(() => {
         next(pageNumber, retryCounter + 1);
-      }, 5000);
+      }, 2000);
     }
   );
 };
@@ -94,7 +98,7 @@ const run = () => {
     fs.mkdirSync(DEST_DIR_PATH);
   }
 
-  next(STARTING_PAGE_NUMBER, 0);
+  next(STARTING_FILE_NUMBER, 0);
 };
 
 run();
